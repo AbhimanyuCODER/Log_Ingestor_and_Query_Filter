@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Logs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Logs List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Trace ID</th>
+                <th>Level</th>
+                <th>Message</th>
+                <th>Resource ID</th>
+                <th>Timestamp</th>
+                <th>Span ID</th>
+                <th>Commit</th>
+                <th>Parent Resource ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.traceId }}</td>
+                <td>{{ log.level }}</td>
+                <td>{{ log.message }}</td>
+                <td>{{ log.resourceId }}</td>
+                <td>{{ log.timestamp }}</td>
+                <td>{{ log.spanId }}</td>
+                <td>{{ log.commit }}</td>
+                <td>{{ log.metadata.parentResourceId }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

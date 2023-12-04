@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Query Logs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: calc(100% - 24px);
+            padding: 8px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Query Result</h1>
+
+    <form action="{% url 'query_logs' %}" method="GET">
+         <label for="traceId">Trace ID:</label>
+        <input type="text" id="traceId" name="traceId" placeholder="Enter Trace ID">
+
+        <label for="level">Level:</label>
+        <input type="text" id="level" name="level" placeholder="Enter level">
+
+       <label for="start_date">Start Date / Time:</label>
+        <input type="datetime-local" id="start_date" name="start_date">
+        <span style="font-size: 0.8em; color: gray;">(Note: If you need to find logs for a particular date or time, please use the "Start Date / Time" field only)</span><br><br>
+
+        <label for="end_date">End Date / Time:</label>
+        <input type="datetime-local" id="end_date" name="end_date">
+
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" placeholder="Enter message">
+
+        <label for="resourceId">Resource ID:</label>
+        <input type="text" id="resourceId" name="resourceId" placeholder="Enter Resource ID">
+
+        <label for="spanId">Span ID:</label>
+        <input type="text" id="spanId" name="spanId" placeholder="Enter Span ID">
+
+        <label for="commit">Commit:</label>
+        <input type="text" id="commit" name="commit" placeholder="Enter Commit">
+
+        <label for="parentResourceId">Parent Resource ID:</label>
+        <input type="text" id="parentResourceId" name="metadata.parentResourceId" placeholder="Enter Parent Resource ID">
+
+        <input type="submit" value="Search">
+
+
+    </form>
+    <hr>
+    <h2>Queried Logs:</h2>
+    <ul>
+        {% for log in logs %}
+            <li>
+               <strong>Level:</strong> {{ log.level }}<br>
+                <strong>Timestamp:</strong> {{ log.timestamp }}<br>
+                <strong>Message:</strong> {{ log.message }}<br>
+                <strong>Resource ID:</strong> {{ log.resourceId }}<br>
+                <strong>Trace ID:</strong> {{ log.traceId }}<br>
+                <strong>Span ID:</strong> {{ log.spanId }}<br>
+                <strong>Commit:</strong> {{ log.commit }}<br>
+                <strong>Parent Resource ID:</strong> {{ log.metadata.parentResourceId }}<br>
+            </li>
+        {% empty %}
+            <li>No logs found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
